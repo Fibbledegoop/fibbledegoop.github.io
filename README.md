@@ -62,6 +62,10 @@
   .role.aws{background:rgba(51,204,255,.2);color:var(--cyan)}
   .role.pxt{background:rgba(74,222,128,.2);color:var(--green)}
   .role.lnd{background:rgba(165,107,255,.2);color:var(--purple)}
+  .role.lastmile{background:rgba(51,204,255,.2);color:var(--cyan)}
+  .role.legal{background:rgba(255,80,80,.2);color:#ff8a8a}
+  .role.finance{background:rgba(74,222,128,.2);color:#ffd24d}
+  .role.security{background:rgba(74,222,128,.2);color:#8fffbf}
 
   /* ---------- MAP ---------- */
   #map{background:radial-gradient(1200px 800px at 50% -10%,#12314f,var(--navy))}
@@ -140,6 +144,10 @@
   .intent{position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:rgba(5,12,22,.9);border:1px solid var(--red);border-radius:8px;padding:3px 9px;font-size:13px;font-weight:800;white-space:nowrap;z-index:5;box-shadow:0 2px 8px #000}
   .intent.def{border-color:var(--cyan)} .intent.buf{border-color:var(--purple)} .intent.dbf{border-color:var(--orange)}
   .statuses{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:2px;max-width:160px}
+  .tokentray{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px;max-width:200px}
+  .token{background:rgba(6,14,24,.7);border:2px solid var(--cyan);border-radius:8px;padding:2px 6px;font-size:18px;display:flex;flex-direction:column;align-items:center;line-height:1;animation:fadein .3s}
+  .token.package{border-color:#6ab0ff}
+  .token .tv{font-size:9px;font-weight:800;margin-top:1px;color:var(--ink)}
   .status{background:var(--panel2);border:1px solid #3c6494;border-radius:7px;padding:1px 6px;font-size:11px;font-weight:700;display:flex;gap:3px;align-items:center;position:relative;cursor:default}
   .status.buff{border-color:var(--green)} .status.debuff{border-color:var(--red)}
   .status:hover{z-index:1000}
@@ -230,6 +238,16 @@
   .card.attack{border-color:#ff8a5c;background:linear-gradient(180deg,#7a2d18,#3f1710)}
   .card.skill{border-color:#4ec3ff;background:linear-gradient(180deg,#124a6e,#0a2438)}
   .card.power{border-color:#c79bff;background:linear-gradient(180deg,#4a2578,#25133f)}
+  /* thick class-colored borders (override type border) */
+  .card.cls-generic{border:4px solid #8fa3b8}
+  .card.cls-ops{border:4px solid var(--orange)}
+  .card.cls-aws{border:4px solid var(--cyan)}
+  .card.cls-pxt{border:4px solid var(--green)}
+  .card.cls-lnd{border:4px solid var(--purple)}
+  .card.cls-lastmile{border:4px solid #2bb7e6}
+  .card.cls-legal{border:4px solid #ff5c5c}
+  .card.cls-finance{border:4px solid #ffd24d}
+  .card.cls-security{border:4px solid #4ade80}
   .card.unplayable{filter:grayscale(.6) brightness(.7)}
   .card .cost{position:absolute;top:-2px;left:-2px;width:34px;height:34px;background:radial-gradient(circle at 40% 35%,#ffe4a8,var(--orange));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#241300;font-weight:900;font-size:17px;z-index:3;border:2px solid #fff3d6;box-shadow:0 2px 6px #000}
   .card .art{height:96px;background:#0c1c2f;display:flex;align-items:center;justify-content:center;font-size:38px;border-bottom:2px solid #34597f;text-shadow:0 2px 6px rgba(0,0,0,.85),0 0 10px rgba(0,0,0,.6)}
@@ -239,6 +257,16 @@
   .card.power .art{background:linear-gradient(135deg,rgba(154,92,255,.5),rgba(90,43,168,.5)),url('assets/type_power.png');background-size:cover;background-position:center}
   .card .cname{font-size:14px;font-weight:800;text-align:center;padding:6px 4px 2px;line-height:1.12}
   .card .ctype{font-size:9px;text-align:center;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .card .cbadge{font-size:9.5px;text-align:center;font-weight:800;margin:0;padding:3px 4px;border-radius:0;letter-spacing:.3px;line-height:1.3;order:-1}
+  .card .cbadge.generic{background:rgba(255,255,255,.12);color:#cdd9e6}
+  .card .cbadge.ops{background:rgba(255,153,0,.25);color:var(--orange2)}
+  .card .cbadge.aws{background:rgba(51,204,255,.22);color:var(--cyan)}
+  .card .cbadge.pxt{background:rgba(74,222,128,.22);color:var(--green)}
+  .card .cbadge.lnd{background:rgba(165,107,255,.25);color:#c79bff}
+  .card .cbadge.lastmile{background:rgba(51,204,255,.22);color:var(--cyan)}
+  .card .cbadge.legal{background:rgba(255,80,80,.22);color:#ff8a8a}
+  .card .cbadge.finance{background:rgba(255,210,77,.22);color:#ffd24d}
+  .card .cbadge.security{background:rgba(74,222,128,.22);color:#8fffbf}
   .card .ctext{flex:1;font-size:12.5px;line-height:1.4;padding:8px 10px;color:#f2f7fc;display:flex;align-items:center;text-align:center;justify-content:center;text-shadow:0 1px 2px rgba(0,0,0,.6);word-spacing:1px}
   .card .ctext b{color:var(--orange2)} .card .ctext .kw{color:var(--cyan);font-weight:700}
   .card.selected{transform:translateY(-52px) scale(1.14)!important;box-shadow:0 0 0 3px var(--orange),0 18px 44px rgba(0,0,0,.7)!important;z-index:25}
@@ -418,6 +446,9 @@ const KW = {
   Overwork:"Costs HP to play — spend health for a powerful effect.",
   Taunt:"Forces enemies to attack this character on their next turn.",
   Pierce:"Ignores the enemy Block - damage hits their HP directly.",
+  Injunction:"Enjoined enemies skip their next turn.",
+  Exploit:"Poison — deals its value in damage at the start of the enemy turn, then decays by 1.",
+  Thorns:"Retaliate: deal this much damage back whenever you are attacked.",
   Escalate:"Each copy played this combat gets stronger.",
   Regen:"Heal this much at the start of your turn; decreases by 1 each turn."
 };
@@ -567,6 +598,92 @@ const CARDS = {
   retrospective:{name:"Retrospective",type:"skill",cls:"lnd",cost:1,rarity:"uncommon",art:"🔎",
     text:"Draw <b>{n}</b> cards. Heal 1 HP for each card in your hand afterward.", n:2, nu:3,
     play:(g,c)=>{drawCards(g,val(c,'n'));healHero(g,g.hand.length);}},
+
+  /* ---- Last Mile (Swarm — summon tokens that act each turn) ---- */
+  dispatch:{name:"Dispatch Driver",type:"skill",cls:"lastmile",cost:1,rarity:"common",art:"🚘",
+    text:"Summon a <b>Driver</b> (deals 3 to a random enemy each turn).",
+    play:(g,c)=>summonToken('driver',1)},
+  packagedrop:{name:"Package Drop",type:"skill",cls:"lastmile",cost:1,rarity:"common",art:"📦",
+    text:"Summon a <b>Package</b> (grants 3 Block each turn). Gain <b>{b}</b> Block now.", b:3, bu:5,
+    play:(g,c)=>{summonToken('package',1);gainBlock(g,g.hero,val(c,'b'));}},
+  routeopt:{name:"Route Optimization",type:"skill",cls:"lastmile",cost:1,rarity:"common",art:"🗺️",
+    text:"Draw 1 card. Your Drivers deal <b>{d}</b> bonus damage this fight.", d:1, du:2,
+    play:(g,c)=>{drawCards(g,1);g.tokens.forEach(t=>{if(t.kind==='driver')t.dmg+=val(c,'d');});}},
+  fleetsurge:{name:"Fleet Surge",type:"skill",cls:"lastmile",cost:2,rarity:"uncommon",art:"🚚",
+    text:"Summon <b>{n}</b> Drivers.", n:2, nu:3,
+    play:(g,c)=>summonToken('driver',val(c,'n'))},
+  sameday:{name:"Same-Day Delivery",type:"skill",cls:"lastmile",cost:0,rarity:"uncommon",art:"⚡",
+    text:"Summon a Package. Draw 1 card. <span class='kw'>Exhaust</span>.", exhaust:true,
+    play:(g,c)=>{summonToken('package',1);drawCards(g,1);}},
+  overnight:{name:"Overnight Blitz",type:"attack",cls:"lastmile",cost:2,rarity:"rare",art:"🌙",
+    text:"All your units act immediately. Then deal <b>{d}</b> damage.", d:6, du:9,
+    play:(g,c,t)=>{ g.tokens.forEach(tk=>{ if(tk.kind==='driver'){const e=randLiveEnemy(g);if(e)dealDamage(g,e,tk.dmg+densityBonus());} else if(tk.kind==='package'){gainBlock(g,g.hero,tk.block+densityBonus());} }); if(t)dealDamage(g,t,val(c,'d')); }},
+  logistics:{name:"Logistics Network",type:"power",cls:"lastmile",cost:2,rarity:"rare",art:"🔗",
+    text:"At the start of each turn, summon a Driver.",
+    play:(g,c)=>{g.hero.powers.autoDriver=(g.hero.powers.autoDriver||0)+1;}},
+
+  /* ---- Legal & Trust (Control — debuff & lockdown) ---- */
+  compliance:{name:"Compliance Review",type:"skill",cls:"legal",cost:1,rarity:"common",art:"📋",
+    text:"Apply <b>{v}</b> Vulnerable to ALL enemies.", v:2, vu:3, aoe:true,
+    play:(g,c)=>liveEnemies(g).forEach(e=>applyStatus(g,e,'Vulnerable',val(c,'v')))},
+  noncompete:{name:"Non-Compete Clause",type:"skill",cls:"legal",cost:1,rarity:"common",art:"✍️",
+    text:"Apply <b>{w}</b> Weak to an enemy. Draw 1 card.", w:2, wu:3,
+    play:(g,c,t)=>{ if(t)applyStatus(g,t,'Weak',val(c,'w')); else liveEnemies(g).forEach(e=>applyStatus(g,e,'Weak',val(c,'w'))); drawCards(g,1);}},
+  cease:{name:"Cease & Desist",type:"attack",cls:"legal",cost:1,rarity:"common",art:"🛑",
+    text:"Deal <b>{d}</b> damage. Apply <b>{f}</b> Frail.", d:6, du:9, f:2, fu:3,
+    play:(g,c,t)=>{dealDamage(g,t,val(c,'d'));applyStatus(g,t,'Frail',val(c,'f'));}},
+  injunction:{name:"Injunction",type:"skill",cls:"legal",cost:2,rarity:"uncommon",art:"⚖️",
+    text:"An enemy is <b>enjoined</b> — it skips its next turn.",
+    play:(g,c,t)=>{ const e=t||randLiveEnemy(g); if(e){ e.stun=(e.stun||0)+1; log(g,`⚖️ ${e.name} will skip its next turn!`);} }},
+  litigate:{name:"Litigate",type:"attack",cls:"legal",cost:1,rarity:"uncommon",art:"⚔️",
+    text:"Deal <b>{d}</b> damage, +<b>{b}</b> for each debuff on the target.", d:5, du:7, b:3, bu:4,
+    play:(g,c,t)=>{ let deb=0; if(t){['Vulnerable','Weak','Frail'].forEach(s=>{if(t.status[s]>0)deb++;});} dealDamage(g,t,val(c,'d')+deb*val(c,'b')); }},
+  classaction:{name:"Class Action",type:"attack",cls:"legal",cost:2,rarity:"rare",art:"👨‍⚖️",
+    text:"Deal <b>{d}</b> damage to ALL enemies. Apply <b>{w}</b> Weak & <b>{v}</b> Vulnerable to all.", d:8, du:12, w:2, wu:2, v:2, vu:2, aoe:true,
+    play:(g,c)=>liveEnemies(g).forEach(e=>{dealDamage(g,e,val(c,'d'));applyStatus(g,e,'Weak',val(c,'w'));applyStatus(g,e,'Vulnerable',val(c,'v'));})},
+  gagorder:{name:"Gag Order",type:"power",cls:"legal",cost:2,rarity:"rare",art:"🤐",
+    text:"Whenever you apply a debuff, deal <b>{d}</b> damage to that enemy.", d:2, du:3,
+    play:(g,c)=>{g.hero.powers.gagOrder=(g.hero.powers.gagOrder||0)+val(c,'d');}},
+
+  /* ---- Finance (FP&A) — economy / gold as fuel ---- */
+  invoice:{name:"Invoice",type:"attack",cls:"finance",cost:1,rarity:"common",art:"🧾",
+    text:"Deal <b>{d}</b> damage. Gain <b>{g}</b> gold.", d:6, du:8, g:6, gu:9,
+    play:(g,c,t)=>{dealDamage(g,t,val(c,'d'));g.gold+=val(c,'g');renderTop&&renderTop();}},
+  costsavings:{name:"Cost Savings",type:"skill",cls:"finance",cost:1,rarity:"common",art:"💵",
+    text:"Gain <b>{b}</b> Block and <b>{g}</b> gold.", b:5, bu:7, g:5, gu:8,
+    play:(g,c)=>{gainBlock(g,g.hero,val(c,'b'));g.gold+=val(c,'g');renderTop&&renderTop();}},
+  roi:{name:"Return on Investment",type:"attack",cls:"finance",cost:1,rarity:"uncommon",art:"📊",
+    text:"Deal damage equal to <b>{d}</b> + 1 per 15 gold you have.", d:5, du:7,
+    play:(g,c,t)=>dealDamage(g,t,val(c,'d')+Math.floor(g.gold/15))},
+  reallocate:{name:"Reallocate Budget",type:"attack",cls:"finance",cost:1,rarity:"uncommon",art:"💸",
+    text:"Spend <b>{s}</b> gold (if able): deal <b>{d}</b> damage. Otherwise deal 4.", s:10, su:10, d:16, du:22,
+    play:(g,c,t)=>{ if(g.gold>=val(c,'s')){ g.gold-=val(c,'s'); dealDamage(g,t,val(c,'d')); renderTop&&renderTop(); } else { dealDamage(g,t,4); } }},
+  hedge:{name:"Hedge Fund",type:"skill",cls:"finance",cost:2,rarity:"rare",art:"🏦",
+    text:"Gain Block equal to <b>{b}</b> + 1 per 12 gold you have.", b:6, bu:9,
+    play:(g,c)=>gainBlock(g,g.hero,val(c,'b')+Math.floor(g.gold/12))},
+  buyback:{name:"Stock Buyback",type:"power",cls:"finance",cost:2,rarity:"rare",art:"📈",
+    text:"At the start of each turn, gain <b>{g}</b> more gold.", g:4, gu:6,
+    play:(g,c)=>{g.hero.powers.buyback=(g.hero.powers.buyback||0)+val(c,'g');}},
+
+  /* ---- Security (InfoSec) — DoT / Exploit & Thorns ---- */
+  injectvuln:{name:"Inject Vulnerability",type:"skill",cls:"security",cost:1,rarity:"common",art:"🐛",
+    text:"Apply <b>{e}</b> <span class='kw'>Exploit</span> to an enemy.", e:4, eu:6,
+    play:(g,c,t)=>{ const en=t||randLiveEnemy(g); if(en)applyStatus(g,en,'Exploit',val(c,'e')); }},
+  patch:{name:"Patch",type:"skill",cls:"security",cost:1,rarity:"common",art:"🩹",
+    text:"Gain <b>{b}</b> Block. Draw 1 card.", b:6, bu:8,
+    play:(g,c)=>{gainBlock(g,g.hero,val(c,'b'));drawCards(g,1);}},
+  firewall:{name:"Firewall",type:"skill",cls:"security",cost:1,rarity:"uncommon",art:"🧱",
+    text:"Gain <b>{b}</b> Block and <b>{th}</b> <span class='kw'>Thorns</span> this turn.", b:6, bu:9, th:4, thu:6,
+    play:(g,c)=>{gainBlock(g,g.hero,val(c,'b'));g.hero.thorns=(g.hero.thorns||0)+val(c,'th');}},
+  scan:{name:"Vulnerability Scan",type:"attack",cls:"security",cost:1,rarity:"uncommon",art:"🔦",
+    text:"Deal <b>{d}</b> damage. Apply <b>{e}</b> Exploit to ALL enemies.", d:5, du:7, e:2, eu:3, aoe:true,
+    play:(g,c)=>liveEnemies(g).forEach(e=>{dealDamage(g,e,val(c,'d'));applyStatus(g,e,'Exploit',val(c,'e'));})},
+  zeroday:{name:"Zero-Day Exploit",type:"attack",cls:"security",cost:2,rarity:"rare",art:"💥",
+    text:"Deal <b>{d}</b> damage. Add <span class='kw'>Exploit</span> equal to the target's current Exploit (max +8).", d:8, du:12,
+    play:(g,c,t)=>{ if(t){ dealDamage(g,t,val(c,'d')); if(t.alive&&t.status.Exploit>0){const add=Math.min(t.status.Exploit,8); t.status.Exploit+=add; floatText(t,`+${add} Exploit`,'dmg');} } }},
+  honeypot:{name:"Honeypot",type:"power",cls:"security",cost:2,rarity:"rare",art:"🍯",
+    text:"Gain <b>{th}</b> permanent <span class='kw'>Thorns</span> each turn.", th:3, thu:5,
+    play:(g,c)=>{g.hero.powers.honeypot=(g.hero.powers.honeypot||0)+val(c,'th');}},
   keynote:{name:"Keynote Address",type:"attack",cls:"lnd",cost:3,rarity:"rare",art:"🎤",
     text:"Draw <b>{n}</b> cards, then deal damage to ALL enemies equal to <b>{d}</b> + cards in hand.", n:3, nu:4, d:6, du:9, aoe:true,
     play:(g,c)=>{drawCards(g,val(c,'n'));const dmg=val(c,'d')+g.hand.length;liveEnemies(g).forEach(e=>dealDamage(g,e,dmg));}},
@@ -646,29 +763,57 @@ const CLASSES = {
     name:"Operations", role:"Tank · Block & Attrition", roleClass:"ops",
     img:"hero_operations.png", maxHp:80, energy:3,
     desc:"Outlast everything. Stack Block, wear enemies down, and never break under Peak.",
-    starter:["strike","strike","strike","strike","defend","defend","defend","defend","andon","standup"],
+    starter:["strike","strike","strike","defend","defend","defend","andon","standup","attrition","safety"],
     startRelic:"andon_relic", innate:"🧱 Fortress: gain 2 Block at the start of each turn."
   },
   aws:{
     name:"AWS", role:"Scaling · Combo & Ramp", roleClass:"aws",
     img:"hero_aws.png", maxHp:68, energy:3,
     desc:"Start small, scale infinitely. Chain cards, stack Strength, and burst for massive damage.",
-    starter:["strike","strike","strike","strike","defend","defend","defend","defend","scale","lambda"],
+    starter:["strike","strike","strike","defend","defend","scale","lambda","lambda","query","redshift"],
     startRelic:"scale_relic", innate:"📈 Ramp: every 3rd card played each turn grants +1 Strength."
   },
   pxt:{
     name:"PXT", role:"Support · Heal & Sustain", roleClass:"pxt",
     img:"hero_pxt.png", maxHp:75, energy:3,
     desc:"Nobody burns out on your watch. Heal through anything, buff steadily, and win the long game.",
-    starter:["strike","strike","strike","strike","defend","defend","defend","wellness","recognition","mentor"],
+    starter:["strike","strike","strike","defend","defend","wellness","recognition","mentor","benefits"],
     startRelic:"wellness_relic", innate:"💚 Duty of Care: heal 1 HP at the start of each turn."
   },
   lnd:{
     name:"Learning & Dev", role:"Engine · Draw & Upgrade", roleClass:"lnd",
     img:"hero_lnd.png", maxHp:70, energy:3,
     desc:"Knowledge compounds. Draw deep, chain cards, and turn a full hand into overwhelming force.",
-    starter:["strike","strike","strike","strike","defend","defend","defend","onboarding","flashcards","certification"],
+    starter:["strike","strike","strike","defend","defend","onboarding","flashcards","certification","knowledge"],
     startRelic:"cert_relic", innate:"📚 Engine: draw +1 card/turn. First attack each turn deals +1 damage per 2 cards drawn."
+  },
+  lastmile:{
+    name:"Last Mile", role:"Swarm · Tokens & Tempo", roleClass:"lastmile",
+    img:"hero_lastmile.png", maxHp:72, energy:3,
+    desc:"Deploy a fleet. Summon Driver & Package units that chip away every turn — overwhelm with volume, not big hits.",
+    starter:["strike","strike","strike","strike","defend","defend","defend","dispatch","dispatch","routeopt"],
+    startRelic:"fleet_relic", innate:"🚚 Density: your summoned units deal +1 damage each."
+  },
+  legal:{
+    name:"Legal & Trust", role:"Control · Debuff & Lockdown", roleClass:"legal",
+    img:"hero_legal.png", maxHp:70, energy:3,
+    desc:"Tie enemies up in red tape. Stack debuffs, skip their turns, and win without ever taking the hit.",
+    starter:["strike","strike","strike","defend","defend","cease","injunction","compliance","noncompete"],
+    startRelic:"legal_relic", innate:"⚖️ Precedent: the first debuff you apply each turn is +1 stronger."
+  },
+  finance:{
+    name:"Finance (FP&A)", role:"Economy · Gold as Fuel", roleClass:"finance",
+    img:"hero_finance.png", maxHp:70, energy:3,
+    desc:"Turn money into power. Spend and earn gold mid-combat; your damage and block scale with the gold on hand.",
+    starter:["strike","strike","strike","defend","defend","reallocate","costsavings","roi","invoice"],
+    startRelic:"finance_relic", innate:"💰 Compounding: gain 3 gold at the start of each combat turn."
+  },
+  security:{
+    name:"Security (InfoSec)", role:"DoT · Exploit & Thorns", roleClass:"security",
+    img:"hero_security.png", maxHp:72, energy:3,
+    desc:"Patch, then punish. Stack Exploit that ticks every turn, and retaliate with Thorns when attacked.",
+    starter:["strike","strike","strike","defend","defend","injectvuln","firewall","patch","zeroday"],
+    startRelic:"security_relic", innate:"🛡️ Threat Model: enemies with Exploit take +25% from your attacks."
   }
 };
 
@@ -750,6 +895,14 @@ const RELICS = {
     onCombatStart:(g)=>healHero(g,4)},
   cert_relic:{name:"Learning Library",icon:"🎓",desc:"On the first turn of each combat, draw 1 extra card.",
     onFirstTurn:(g)=>drawCards(g,1)},
+  fleet_relic:{name:"Dispatch Board",icon:"🚚",desc:"At the start of each combat, summon a Driver unit.",
+    onCombatStart:(g)=>{ if(g.tokens) summonToken('driver',1); }},
+  legal_relic:{name:"Retainer Agreement",icon:"⚖️",desc:"At the start of each combat, apply 1 Weak to all enemies.",
+    onCombatStart:(g)=>{ liveEnemies(g).forEach(e=>applyStatus(g,e,'Weak',1)); }},
+  finance_relic:{name:"Signing Bonus",icon:"💰",desc:"Start each combat with +20 gold.",
+    onCombatStart:(g)=>{ g.gold+=20; renderTop&&renderTop(); }},
+  security_relic:{name:"IDS Sensor",icon:"🛡️",desc:"At the start of each combat, apply 3 Exploit to a random enemy.",
+    onCombatStart:(g)=>{ const e=randLiveEnemy(g); if(e)applyStatus(g,e,'Exploit',3); }},
   coffee_relic:{name:"Espresso Machine",icon:"☕",desc:"At the start of each combat, gain 1 extra energy on turn 1.",
     onCombatStart:(g)=>{g.energy++;}},
   bar_raiser:{name:"Bar Raiser",icon:"🎯",desc:"Whenever you play 3 attacks in a turn, deal 4 damage to a random enemy.",
@@ -1169,13 +1322,39 @@ function spawn(def){
   return {
     ref:def, name:def.name, img:def.img,
     maxHp:hp, hp, block:0, alive:true,
-    status:{Strength:0,Dexterity:0,Vulnerable:0,Weak:0,Frail:0},
+    status:{Strength:0,Dexterity:0,Vulnerable:0,Weak:0,Frail:0,Exploit:0}, stun:0,
     intent:null, lastMove:-1, id:newId(), elite:!!def.elite, boss:!!def.boss
   };
 }
 /* enemy helpers (used by AOE / random-target cards & relics) */
 function liveEnemies(g){ return g.enemies ? g.enemies.filter(e=>e.alive) : []; }
 function randLiveEnemy(g){ const l=liveEnemies(g); return l.length?l[rnd(l.length)]:null; }
+/* ---- Last Mile TOKENS (summoned units that act each turn) ---- */
+function densityBonus(){ return g.party && g.party.some(a=>a.alive && a.clsKey==='lastmile') ? 1 : 0; }
+function summonToken(kind, count){
+  count=count||1;
+  for(let i=0;i<count;i++){
+    if(g.tokens.length>=6){ log(g,'Fleet is full (6 units).'); break; }
+    // Driver = attacker, Package = blocker
+    g.tokens.push({kind, id:newId(), dmg:kind==='driver'?3:0, block:kind==='package'?3:0});
+  }
+  log(g,`🚚 Deployed ${count} ${kind==='driver'?'Driver':'Package'} unit(s)!`);
+  renderCombat&&renderCombat();
+}
+async function tokensAct(){
+  if(!g.tokens||!g.tokens.length) return;
+  for(const tk of g.tokens){
+    if(g.combatOver) return;
+    if(tk.kind==='driver'){
+      const e=randLiveEnemy(g);
+      if(e){ dealDamage(g,e,tk.dmg+densityBonus()); if(sfxOn)beep('square',420,0.06,0.05,600); await delay(160); }
+    } else if(tk.kind==='package'){
+      // Package units shield the active ally
+      if(g.hero&&g.hero.alive) gainBlock(g,g.hero,tk.block+densityBonus());
+    }
+  }
+  renderCombat&&renderCombat();
+}
 
 /* ============================================================
    COMBAT ENGINE
@@ -1191,6 +1370,7 @@ function startCombat(enemies, node){
   g.drawPile=shuffle(g.deck.map(c=>({...c})));
   g.hand=[]; g.discard=[]; g.exhaust=[];
   g.turn=0; g.combatOver=false;
+  g.tokens=[];   // Last Mile summoned units
   g.powersPlayed=0; g.bonusEnergyNext=0;
   switchScreen('combat');
   renderHero();
@@ -1209,16 +1389,21 @@ function startTurn(first=false){
   g.energy = g.baseEnergy + (g.bonusEnergyNext||0);
   g.bonusEnergyNext=0;
   g.cardsPlayedThisTurn=0; g.attacksThisTurn=0; g.powersThisTurn=0;
-  g.cardsDrawnThisTurn=0; g._lndBonusUsed=false;
+  g.cardsDrawnThisTurn=0; g._lndBonusUsed=false; g._precedentUsed=false;
   // per-turn effects for EACH living party member (repoint g.hero so helpers target them)
   const _savedActive=g.active;
   g.party.forEach((ally,idx)=>{
     if(!ally.alive) return;
     g.hero=ally;
     ally.block=0;                       // block resets each turn (standard deckbuilder rule)
+    ally.thorns=0;                      // Thorns is per-turn (Honeypot re-applies below)
     if(ally.taunt>0){ ally.taunt--; }   // taunt counts down at the start of your turn
     if(ally.status.Regen>0){ healHero(g,ally.status.Regen); ally.status.Regen--; }
     if(ally.powers.reinvent){ applyStatus(g,ally,'Strength',ally.powers.reinvent); }
+    if(ally.powers.autoDriver){ summonToken('driver',ally.powers.autoDriver); }
+    if(ally.clsKey==='finance'){ g.gold+=3; }               // Compounding innate
+    if(ally.powers.buyback){ g.gold+=ally.powers.buyback; }  // Stock Buyback power
+    if(ally.powers.honeypot){ ally.thorns=(ally.thorns||0)+ally.powers.honeypot; } // Honeypot Thorns
     if(!first){
       if(ally.clsKey==='ops'){ gainBlock(g,ally,2); }   // Fortress: +2 Block/turn
       if(ally.clsKey==='pxt'){ healHero(g,1); }         // Duty of Care: heal 1/turn
@@ -1337,6 +1522,11 @@ function dealDamage(g,target,amount){
   } else if(target.block>=0){
     burst(tfid,'block',6);
   }
+  // Thorns: retaliate whenever this ally is ATTACKED by an enemy (even if fully blocked)
+  if(ally && target.thorns>0 && g._enemyAttacking){
+    const re=randLiveEnemy(g);
+    if(re){ const th=target.thorns; log(g,`🌵 Thorns hits ${re.name} for ${th}!`); _origDeal(g,re,th); }
+  }
   if(!ally && target.hp<=0){ target.hp=0; target.alive=false; SFX.die(); killEnemy(target); }
   if(ally){
     if(!g._eapUsed && g.relics.includes('eap') && target.hp>0 && target.hp<target.maxHp/2){
@@ -1389,10 +1579,19 @@ function healHero(g,n){
   renderTop();renderHero();
 }
 function applyStatus(g,who,st,n){
+  const isDebuff=['Vulnerable','Weak','Frail'].includes(st);
+  // Legal innate — Precedent: first debuff applied to an ENEMY each turn is +1 stronger
+  if(isDebuff && n>0 && !isAlly(who) && g.party && g.party.some(a=>a.alive&&a.clsKey==='legal') && !g._precedentUsed){
+    n+=1; g._precedentUsed=true;
+  }
   who.status[st]=(who.status[st]||0)+n;
   if(who.status[st]<0)who.status[st]=0;
   const buff=['Strength','Dexterity','Regen'].includes(st);
   floatText(who,`${st} ${n>0?'+':''}${n}`,buff?'buf':'dmg');
+  // Gag Order power — deal damage when a debuff is applied to an enemy
+  if(isDebuff && n>0 && !isAlly(who) && g.hero && g.hero.powers && g.hero.powers.gagOrder){
+    dealDamage(g, who, g.hero.powers.gagOrder);
+  }
   renderCombat();
 }
 
@@ -1490,6 +1689,10 @@ dealDamage = function(gg,target,amount){
   if(gg._heroAttackContext && target!==gg.hero){
     amount = amount + (gg.hero.status.Strength||0) + (gg._gpuBonus||0);
     gg._gpuBonus=0; // only first hit of the attack gets it
+    // Security Threat Model: +25% vs enemies afflicted with Exploit (if a Security ally is in the party)
+    if(target && target.status && target.status.Exploit>0 && gg.party && gg.party.some(a=>a.alive&&a.clsKey==='security')){
+      amount = Math.round(amount*1.25);
+    }
   }
   return _origDeal(gg,target,amount);
 };
@@ -1510,8 +1713,13 @@ function endTurn(){
   // discard hand
   g.discard.push(...g.hand); g.hand=[];
   renderPiles();renderHand();
-  // enemy turn
-  enemyTurn().then(()=>{
+  // Last Mile tokens act, THEN enemies
+  tokensAct().then(()=>{
+    if(g.combatOver)return;
+    checkCombatEnd();
+    if(g.combatOver)return;
+    return enemyTurn();
+  }).then(()=>{
     if(g.combatOver)return;
     startTurn();
   });
@@ -1520,6 +1728,20 @@ function delay(ms){return new Promise(r=>setTimeout(r,ms));}
 async function enemyTurn(){
   for(const e of g.enemies){
     if(!e.alive)continue;
+    // Security Exploit (poison): tick damage at start of enemy's turn, then decays by 1
+    if(e.status.Exploit>0){
+      const ex=e.status.Exploit;
+      g._pierce=true; dealDamage(g,e,ex); g._pierce=false;   // Exploit ignores block
+      if(!e.alive){ continue; }
+      e.status.Exploit=Math.max(0,ex-1);
+      log(g,`🐛 ${e.name} takes ${ex} Exploit damage.`); renderCombat(); await delay(250);
+    }
+    if(e.stun>0){
+      e.stun--; log(g,`⚖️ ${e.name} is enjoined — turn skipped!`);
+      const sw=document.querySelector(`.fighter[data-fid="${e.id}"]`);
+      if(sw){ floatText(e,'STUNNED','buf'); }
+      await delay(500); continue;
+    }
     await delay(650);
     const m=e.intent;
     if(!m)continue;
@@ -1546,6 +1768,7 @@ async function enemyTurn(){
         floatText(tgtAlly, `-${tgtAlly.block} 🛡️`, 'dmg'); tgtAlly.block=0;
         log(g,`✂️ ${e.name} shreds ${tgtAlly.name}'s Block!`); renderCombat(); await delay(300);
       }
+      g._enemyAttacking=true;
       const hits=m.mult||1;
       for(let h=0;h<hits;h++){
         let dmg=Math.round((m.v+(e.status.Strength||0))*diffCfg().dmgMul);
@@ -1565,6 +1788,7 @@ async function enemyTurn(){
       }
       await delay(600);
       clearTargetHighlight();
+      g._enemyAttacking=false;
       { const cbEl2=$('#combat'); if(cbEl2) cbEl2.classList.remove('under-attack-veil'); }
       if(m.buf)for(const k in m.buf)applyStatus(g,e,k,m.buf[k]);
     } else if(m.t==='def'){
@@ -2021,11 +2245,21 @@ function renderHero(){
     if(idx===g.active) el.classList.add('active-ally');
     if(!ally.alive) el.classList.add('downed');
     el.addEventListener('click',(e)=>{
-      // clicking a living ally selects them as active (for targeting heals/block)
       if(ally.alive && !g.animating){ setActive(idx); }
     });
     side.appendChild(el);
   });
+  // render summoned Last Mile tokens
+  if(g.tokens && g.tokens.length){
+    const tray=document.createElement('div'); tray.className='tokentray';
+    g.tokens.forEach(tk=>{
+      const t=document.createElement('div'); t.className='token '+tk.kind;
+      t.innerHTML=(tk.kind==='driver'?'🚘':'📦')+`<span class="tv">${tk.kind==='driver'?('⚔️'+(tk.dmg+densityBonus())):('🛡️'+(tk.block+densityBonus()))}</span>`;
+      t.title = tk.kind==='driver'?`Driver — deals ${tk.dmg+densityBonus()} each turn`:`Package — grants ${tk.block+densityBonus()} Block each turn`;
+      tray.appendChild(t);
+    });
+    side.appendChild(tray);
+  }
 }
 function fighterEl(f, isHero, allyIdx){
   const wrap=document.createElement('div');
@@ -2069,8 +2303,8 @@ function fighterEl(f, isHero, allyIdx){
 function statusHTML(f){
   let h='';
   if(f.taunt>0){ h+=`<div class="status buff" style="border-color:var(--orange)">📣 Taunt<div class="tip"><b>Taunt</b><br>${KW.Taunt||''}</div></div>`; }
-  const order=['Strength','Dexterity','Regen','Vulnerable','Weak','Frail'];
-  const icon={Strength:'💪',Dexterity:'🎯',Regen:'💚',Vulnerable:'💥',Weak:'🥀',Frail:'🍂'};
+  const order=['Strength','Dexterity','Regen','Vulnerable','Weak','Frail','Exploit'];
+  const icon={Strength:'💪',Dexterity:'🎯',Regen:'💚',Vulnerable:'💥',Weak:'🥀',Frail:'🍂',Exploit:'🐛'};
   order.forEach(s=>{
     if(f.status[s]>0){
       const buff=['Strength','Dexterity','Regen'].includes(s);
@@ -2186,6 +2420,7 @@ function attachDrag(card, cardObj){
     document.addEventListener('pointerup',onUp);
   });
 }
+const CLASS_LABELS={ops:'🧱 Operations',aws:'📈 AWS',pxt:'💚 PXT',lnd:'📚 L&D',lastmile:'🚚 Last Mile',legal:'⚖️ Legal',finance:'💰 Finance',security:'🛡️ Security'};
 function cardHTML(c, showUpgrade=false){
   const d=CARDS[c.k];
   const up = showUpgrade || c.upgraded;
@@ -2199,11 +2434,12 @@ function cardHTML(c, showUpgrade=false){
   txt=kwText(txt);
   const cost = c.k==='escalate' ? d.cost : d.cost;
   const name = d.name + ((c.upgraded)?'+':'');
-  return `<div class="card ${d.type}">
+  return `<div class="card ${d.type} cls-${d.cls||'generic'}">
+    <div class="cbadge ${d.cls||'generic'}">${CLASS_LABELS[d.cls]||'⭐ Generic'}</div>
     <div class="cost">${d.cost}</div>
     <div class="art cardart" style="background-image:url('assets/card_${c.k}.png')"></div>
     <div class="cname">${name}</div>
-    <div class="ctype">${d.type}${d.cls?' · '+d.cls.toUpperCase():''}</div>
+    <div class="ctype">${d.type}</div>
     <div class="ctext"><span>${txt}</span></div>
   </div>`;
 }
