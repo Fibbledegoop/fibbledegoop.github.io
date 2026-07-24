@@ -36,9 +36,9 @@
   .btn:disabled{filter:grayscale(.7) brightness(.6);cursor:not-allowed;transform:none}
 
   /* ---------- TITLE ---------- */
-  #title{background-size:cover;background-position:center;align-items:center;justify-content:center;text-align:center}
-  #title .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,12,22,.55),rgba(5,12,22,.85))}
-  #title .content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px}
+  #title{background-size:cover;background-position:center;align-items:center;justify-content:flex-start;text-align:center;overflow-y:auto;overflow-x:hidden}
+  #title .overlay{position:fixed;inset:0;background:linear-gradient(180deg,rgba(5,12,22,.55),rgba(5,12,22,.85));z-index:1}
+  #title .content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;padding:24px 20px 40px;margin:auto;min-height:min-content}
   #title h1{font-size:clamp(38px,7vw,84px);line-height:.95;text-shadow:0 4px 24px #000, 0 0 40px rgba(255,153,0,.4);letter-spacing:1px}
   #title h1 .a{color:var(--orange)}
   #title .tag{color:var(--orange2);font-size:clamp(15px,2.4vw,22px);font-weight:600;margin-bottom:4px;text-shadow:0 2px 10px #000}
@@ -68,7 +68,7 @@
   .role.security{background:rgba(74,222,128,.2);color:#8fffbf}
 
   /* ---------- MAP ---------- */
-  #map{background:radial-gradient(1200px 800px at 50% -10%,#12314f,var(--navy))}
+  #map{background:linear-gradient(rgba(6,15,26,.72),rgba(6,15,26,.82)),url('assets/bg_map.png');background-size:cover;background-position:center;background-attachment:fixed}
   .topbar{display:flex;align-items:center;gap:18px;padding:12px 20px;background:rgba(6,15,26,.7);border-bottom:2px solid var(--panel2);z-index:5;flex-wrap:wrap}
   .topbar .who{display:flex;align-items:center;gap:10px;font-weight:700}
   .topbar .who img{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--orange)}
@@ -90,7 +90,7 @@
   .tip b{color:var(--gold)}
   #mapScroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:20px 0 40px}
   #mapCanvas{position:relative;margin:0 auto}
-  .node{position:absolute;width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;transform:translate(-50%,-50%);border:3px solid #26476e;background:var(--panel);background-size:78% 78%;background-position:center;background-repeat:no-repeat;transition:transform .12s,box-shadow .12s,border-color .12s;z-index:3}
+  .node{position:absolute;width:96px;height:96px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;transform:translate(-50%,-50%);border:3px solid #3a5f8a;background:rgba(10,22,37,.6);background-size:cover;background-position:center;background-repeat:no-repeat;box-shadow:0 4px 18px rgba(0,0,0,.6);transition:transform .12s,box-shadow .12s,border-color .12s;z-index:3}
   .node.reachable{cursor:pointer;border-color:var(--orange);box-shadow:0 0 18px rgba(255,153,0,.5);animation:pulse 1.6s infinite}
   .node.reachable:hover{transform:translate(-50%,-50%) scale(1.14)}
   .node.done{opacity:.42;filter:grayscale(.4)}
@@ -124,13 +124,17 @@
   .enemy.drophover{outline:3px solid var(--red);outline-offset:6px;border-radius:12px}
   .fighter.hero img{width:172px;height:172px}
   .fighter.hero{cursor:pointer;border-radius:14px;padding:4px;transition:box-shadow .15s,transform .12s;position:relative}
-  .fighter.hero.active-ally{box-shadow:0 0 0 3px var(--orange),0 0 22px rgba(255,153,0,.5);background:rgba(255,153,0,.08)}
+  .fighter.hero.active-ally{box-shadow:0 0 0 3px var(--active,var(--orange)),0 0 22px var(--active,rgba(255,153,0,.5));background:rgba(255,255,255,.07)}
+  .fighter.hero.targeted-ally{outline:3px dashed #ff5c5c;outline-offset:5px;border-radius:14px;animation:tgtpulse 1s ease-in-out infinite}
+  @keyframes tgtpulse{0%,100%{outline-color:rgba(255,92,92,.5)}50%{outline-color:#ff2020}}
+  .target-banner{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);background:#ff2020;color:#fff;font-weight:800;font-size:12px;padding:3px 12px;border-radius:12px;border:2px solid #fff;white-space:nowrap;z-index:14;box-shadow:0 2px 10px rgba(0,0,0,.6)}
+  .target-banner b{font-size:14px}
   .fighter.hero.active-ally img{width:180px;height:180px}
   .fighter.hero.downed{filter:grayscale(1) brightness(.5);opacity:.6;cursor:default}
   .fighter.hero.downed::after{content:'DOWN';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);background:#7a1414;color:#fff;font-weight:900;font-size:14px;padding:3px 10px;border-radius:6px;border:2px solid #ff5c5c;z-index:6}
   .fighter.hero:not(.active-ally):not(.downed):hover{box-shadow:0 0 0 2px var(--cyan)}
   .fighter.enemy.targeted::before{content:'🎯';position:absolute;top:-34px;left:50%;transform:translateX(-50%);font-size:18px;z-index:6}
-  .tgtmark{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:16px;z-index:6}
+  
   .hitflash{animation:hitflash .3s}
   @keyframes hitflash{0%,100%{filter:none}30%{filter:brightness(2.2) sepia(1) hue-rotate(-30deg) saturate(4)}}
   .shake{animation:shake .3s}
@@ -141,7 +145,7 @@
   .ehp > i{display:block;height:100%;background:linear-gradient(90deg,#ff5c5c,#ff9090);transition:width .3s}
   .ehp span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;text-shadow:0 1px 2px #000}
   .block-badge{position:absolute;top:-6px;left:-6px;background:#6ab0ff;color:#041225;border-radius:8px;padding:2px 7px;font-size:12px;font-weight:800;border:2px solid #cde6ff;display:flex;align-items:center;gap:2px;z-index:4;box-shadow:0 2px 6px #000}
-  .intent{position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:rgba(5,12,22,.9);border:1px solid var(--red);border-radius:8px;padding:3px 9px;font-size:13px;font-weight:800;white-space:nowrap;z-index:5;box-shadow:0 2px 8px #000}
+  .intent{position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:rgba(5,12,22,.9);border:1px solid var(--red);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:800;cursor:help;z-index:7;white-space:nowrap;z-index:5;box-shadow:0 2px 8px #000}
   .intent.def{border-color:var(--cyan)} .intent.buf{border-color:var(--purple)} .intent.dbf{border-color:var(--orange)}
   .statuses{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:2px;max-width:160px}
   .tokentray{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px;max-width:200px}
@@ -152,6 +156,8 @@
   .status.buff{border-color:var(--green)} .status.debuff{border-color:var(--red)}
   .status:hover{z-index:1000}
   .status:hover .tip{display:block}
+  .intent:hover .tip.intent-tip{display:block}
+  .tip.intent-tip{top:32px;bottom:auto;width:180px;border-color:var(--red)}
   .fighter:hover{z-index:60}
   .arena:has(.status:hover){z-index:900}
   .float{position:absolute;font-weight:900;font-size:26px;pointer-events:none;z-index:20;text-shadow:0 2px 6px #000, 0 0 10px currentColor;animation:floatUp 1s ease-out forwards}
@@ -214,7 +220,7 @@
   .fighter.under-attack img{filter:drop-shadow(0 0 22px #ff2020) brightness(1.15) saturate(1.4) !important}
   .fighter.under-attack .namep{color:#ff5c5c;font-weight:900}
   .fighter.under-attack::before{content:'';position:absolute;inset:-6px;border-radius:16px;background:rgba(255,30,30,.25);z-index:-1;animation:targetpulse .6s ease-in-out infinite}
-  .fighter.under-attack::after{content:'🎯 UNDER ATTACK';position:absolute;top:-40px;left:50%;transform:translateX(-50%);background:#ff2020;color:#fff;font-weight:900;font-size:14px;padding:5px 14px;border-radius:10px;border:2px solid #fff;white-space:nowrap;z-index:13;box-shadow:0 3px 12px #000;animation:targetlabel .6s ease-in-out infinite}
+  .fighter.under-attack::after{content:'🎯 UNDER ATTACK';position:absolute;bottom:-42px;left:50%;transform:translateX(-50%);background:#ff2020;color:#fff;font-weight:900;font-size:14px;padding:5px 14px;border-radius:10px;border:2px solid #fff;white-space:nowrap;z-index:13;box-shadow:0 3px 12px #000;animation:targetlabel .6s ease-in-out infinite}
   @keyframes targetpulse{0%,100%{outline-color:rgba(255,30,30,.6);box-shadow:0 0 16px rgba(255,30,30,.5)}50%{outline-color:#ff2020;box-shadow:0 0 40px rgba(255,30,30,1)}}
   @keyframes targetlabel{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.12)}}
   #combat.under-attack-veil::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(255,0,0,.22));animation:veilpulse .6s ease-in-out infinite}
@@ -234,7 +240,16 @@
   .energyorb b{font-size:26px;line-height:1} .energyorb small{font-size:10px;font-weight:800;opacity:.8}
   .hand{flex:1;display:flex;justify-content:center;align-items:flex-end;gap:-20px;min-height:220px;perspective:1000px;overflow:visible;min-width:0}
   .card{width:150px;height:210px;flex:none;margin:0 -14px;border-radius:14px;position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid #34597f;box-shadow:var(--shadow);transition:transform .14s,margin .14s,box-shadow .14s;cursor:pointer;transform-origin:bottom center;display:flex;flex-direction:column;overflow:hidden}
-  .hand .card:hover{transform:translateY(-40px) scale(1.18) rotate(0deg)!important;z-index:20;box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 22px rgba(255,153,0,.4)}
+  .hand .card:hover{transform:translateY(-40px) scale(1.18) rotate(0deg)!important;z-index:20;box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 22px rgba(255,255,255,.35)}
+  .hand .card.cls-generic:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #8fa3b8}
+  .hand .card.cls-ops:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #ff9900}
+  .hand .card.cls-aws:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #33ccff}
+  .hand .card.cls-pxt:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #4ade80}
+  .hand .card.cls-lnd:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #a56bff}
+  .hand .card.cls-lastmile:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #2bb7e6}
+  .hand .card.cls-legal:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #ff5c5c}
+  .hand .card.cls-finance:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #ffd24d}
+  .hand .card.cls-security:hover{box-shadow:0 18px 44px rgba(0,0,0,.7),0 0 24px #4ade80}
   .card.attack{border-color:#ff8a5c;background:linear-gradient(180deg,#7a2d18,#3f1710)}
   .card.skill{border-color:#4ec3ff;background:linear-gradient(180deg,#124a6e,#0a2438)}
   .card.power{border-color:#c79bff;background:linear-gradient(180deg,#4a2578,#25133f)}
@@ -248,6 +263,16 @@
   .card.cls-legal{border:4px solid #ff5c5c}
   .card.cls-finance{border:4px solid #ffd24d}
   .card.cls-security{border:4px solid #4ade80}
+  /* cost circle tinted to class color */
+  .card.cls-generic .cost{background:radial-gradient(circle at 40% 35%,#e8f0fa,#8fa3b8)}
+  .card.cls-ops .cost{background:radial-gradient(circle at 40% 35%,#ffe4a8,#ff9900)}
+  .card.cls-aws .cost{background:radial-gradient(circle at 40% 35%,#c9f2ff,#33ccff)}
+  .card.cls-pxt .cost{background:radial-gradient(circle at 40% 35%,#c8f7d6,#4ade80)}
+  .card.cls-lnd .cost{background:radial-gradient(circle at 40% 35%,#e0ccff,#a56bff)}
+  .card.cls-lastmile .cost{background:radial-gradient(circle at 40% 35%,#c9f2ff,#2bb7e6)}
+  .card.cls-legal .cost{background:radial-gradient(circle at 40% 35%,#ffd0d0,#ff5c5c)}
+  .card.cls-finance .cost{background:radial-gradient(circle at 40% 35%,#fff0c2,#ffd24d)}
+  .card.cls-security .cost{background:radial-gradient(circle at 40% 35%,#c8f7d6,#4ade80)}
   .card.unplayable{filter:grayscale(.6) brightness(.7)}
   .card .cost{position:absolute;top:-2px;left:-2px;width:34px;height:34px;background:radial-gradient(circle at 40% 35%,#ffe4a8,var(--orange));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#241300;font-weight:900;font-size:17px;z-index:3;border:2px solid #fff3d6;box-shadow:0 2px 6px #000}
   .card .art{height:96px;background:#0c1c2f;display:flex;align-items:center;justify-content:center;font-size:38px;border-bottom:2px solid #34597f;text-shadow:0 2px 6px rgba(0,0,0,.85),0 0 10px rgba(0,0,0,.6)}
@@ -389,7 +414,6 @@
       <div class="side heroes" id="heroSide"></div>
       <div class="side enemies" id="enemySide"></div>
     </div>
-    <div class="log" id="combatLog"></div>
     <div class="piles">
       <div class="pile" id="drawPile">🂠 Draw <b>0</b></div>
       <div class="pile" id="discardPile">🗑️ Discard <b>0</b></div>
@@ -636,10 +660,10 @@ const CARDS = {
     text:"An enemy is <b>enjoined</b> — it skips its next turn.",
     play:(g,c,t)=>{ const e=t||randLiveEnemy(g); if(e){ e.stun=(e.stun||0)+1; log(g,`⚖️ ${e.name} will skip its next turn!`);} }},
   litigate:{name:"Litigate",type:"attack",cls:"legal",cost:1,rarity:"uncommon",art:"⚔️",
-    text:"Deal <b>{d}</b> damage, +<b>{b}</b> for each debuff on the target.", d:5, du:7, b:3, bu:4,
+    text:"Deal <b>{d}</b> damage, +<b>{b}</b> for each debuff on the target.", d:6, du:8, b:4, bu:5,
     play:(g,c,t)=>{ let deb=0; if(t){['Vulnerable','Weak','Frail'].forEach(s=>{if(t.status[s]>0)deb++;});} dealDamage(g,t,val(c,'d')+deb*val(c,'b')); }},
   classaction:{name:"Class Action",type:"attack",cls:"legal",cost:2,rarity:"rare",art:"👨‍⚖️",
-    text:"Deal <b>{d}</b> damage to ALL enemies. Apply <b>{w}</b> Weak & <b>{v}</b> Vulnerable to all.", d:8, du:12, w:2, wu:2, v:2, vu:2, aoe:true,
+    text:"Deal <b>{d}</b> damage to ALL enemies. Apply <b>{w}</b> Weak & <b>{v}</b> Vulnerable to all.", d:10, du:14, w:2, wu:2, v:2, vu:2, aoe:true,
     play:(g,c)=>liveEnemies(g).forEach(e=>{dealDamage(g,e,val(c,'d'));applyStatus(g,e,'Weak',val(c,'w'));applyStatus(g,e,'Vulnerable',val(c,'v'));})},
   gagorder:{name:"Gag Order",type:"power",cls:"legal",cost:2,rarity:"rare",art:"🤐",
     text:"Whenever you apply a debuff, deal <b>{d}</b> damage to that enemy.", d:2, du:3,
@@ -1218,7 +1242,7 @@ function showMap(){
   const canvas=$('#mapCanvas');
   canvas.innerHTML='';
   const W = Math.min(window.innerWidth-40, 900);
-  const rowH = 92;
+  const rowH = 134;
   const H = ROWS*rowH + 40;
   canvas.style.width=W+'px';
   canvas.style.height=H+'px';
@@ -1336,7 +1360,7 @@ function summonToken(kind, count){
   for(let i=0;i<count;i++){
     if(g.tokens.length>=6){ log(g,'Fleet is full (6 units).'); break; }
     // Driver = attacker, Package = blocker
-    g.tokens.push({kind, id:newId(), dmg:kind==='driver'?3:0, block:kind==='package'?3:0});
+    g.tokens.push({kind, id:newId(), dmg:kind==='driver'?2:0, block:kind==='package'?3:0});
   }
   log(g,`🚚 Deployed ${count} ${kind==='driver'?'Driver':'Package'} unit(s)!`);
   renderCombat&&renderCombat();
@@ -2207,6 +2231,20 @@ function openDeck(){
   $('#deckClose').onclick=()=>$('#deckOverlay').classList.remove('active');
   $('#deckOverlay').classList.add('active');
 }
+function openPileViewer(which){
+  const panel=$('#deckPanel');
+  let list, title, sortIt=true;
+  if(which==='draw'){ list=g.drawPile; title='🂠 Draw Pile'; sortIt=true; }   // sorted so it doesn't reveal draw order
+  else if(which==='discard'){ list=g.discard; title='🗑️ Discard Pile'; sortIt=false; }
+  else { list=g.exhaust; title='🔥 Exhausted'; sortIt=false; }
+  let cards=[...list];
+  if(sortIt) cards.sort((a,b)=>({attack:0,skill:1,power:2}[CARDS[a.k].type]-{attack:0,skill:1,power:2}[CARDS[b.k].type]) || cardCost(a)-cardCost(b));
+  panel.innerHTML=`<div class="miniheader"><h2>${title} (${list.length})</h2><button class="btn ghost" id="deckClose">Close</button></div>`+
+    (list.length?`<div class="cardrow" style="max-height:70vh;overflow:auto" id="deckRow"></div>`:`<div class="psub" style="padding:30px">Empty.</div>`);
+  if(list.length){ const row=$('#deckRow'); cards.forEach(c=>{const w=document.createElement('div');w.className='pickcard';w.innerHTML=cardHTML(c);row.appendChild(w);}); }
+  $('#deckClose').onclick=()=>$('#deckOverlay').classList.remove('active');
+  $('#deckOverlay').classList.add('active');
+}
 
 /* ============================================================
    RENDERING
@@ -2240,10 +2278,28 @@ function renderRelics(sel){
 }
 function renderHero(){
   const side=$('#heroSide'); side.innerHTML='';
+  // figure out how much incoming damage each ally is targeted for this enemy turn
+  const incoming={};
+  (g.enemies||[]).forEach(e=>{
+    if(!e.alive||!e.intent||e.stun>0) return;
+    const m=e.intent;
+    if(m.t!=='atk') return;
+    const dmg=(m.dmg||0)*(m.mult||1);
+    if(m.aoe){ g.party.forEach(a=>{ if(a.alive) incoming[a.id]=(incoming[a.id]||0)+dmg; }); }
+    else if(m.targetId){ incoming[m.targetId]=(incoming[m.targetId]||0)+dmg; }
+  });
   g.party.forEach((ally,idx)=>{
     const el=fighterEl(ally, true, idx);
     if(idx===g.active) el.classList.add('active-ally');
     if(!ally.alive) el.classList.add('downed');
+    // persistent TARGETED indicator so you can plan blocks/taunts
+    if(ally.alive && incoming[ally.id]>0){
+      el.classList.add('targeted-ally');
+      const banner=document.createElement('div');
+      banner.className='target-banner';
+      banner.innerHTML=`🎯 <b>${incoming[ally.id]}</b> incoming`;
+      el.appendChild(banner);
+    }
     el.addEventListener('click',(e)=>{
       if(ally.alive && !g.animating){ setActive(idx); }
     });
@@ -2276,13 +2332,13 @@ function fighterEl(f, isHero, allyIdx){
     else if(m.t==='def'){cls+=' def';txt=`🛡️ ${m.v}`;}
     else if(m.t==='buf'){cls+=' buf';txt='💪 Buff';}
     else if(m.t==='dbf'){cls+=' dbf';txt='🌀 Debuff';}
-    // show which ally is targeted (party mode)
-    let tgtName='';
-    if((m.t==='atk'||m.t==='dbf') && m.targetId && g.party.length>1){
-      const ta=g.party.find(a=>a.id===m.targetId && a.alive);
-      if(ta) tgtName=`<div class="tgtmark" title="Targeting ${ta.name}">🎯 ${ta.name.split(' ')[0]}</div>`;
-    }
-    intentHtml=`<div class="${cls}" title="${m.name}">${txt}</div>${tgtName}`;
+    // build a readable description of what this move does
+    let desc='';
+    if(m.t==='atk'){ desc=`Deals ${m.dmg}${m.mult>1?` ×${m.mult} (${m.dmg*m.mult} total)`:''} damage`; if(m.aoe)desc+=' to ALL allies'; if(m.pierce)desc+=' — ignores Block'; if(m.shred)desc+=' — removes your Block first'; desc+='.'; if(m.buf)desc+=' Then buffs itself.'; }
+    else if(m.t==='def'){ desc=`Gains ${m.v} Block${m.self?' and buffs itself':''}.`; }
+    else if(m.t==='buf'){ desc='Strengthens itself.'; }
+    else if(m.t==='dbf'){ desc='Applies debuffs to you'+(m.deb?': '+Object.keys(m.deb).join(', '):'')+'.'; }
+    intentHtml=`<div class="${cls}">${txt}<div class="tip intent-tip"><b>${m.name}</b><br>${desc}</div></div>`;
   }
   const blockBadge = f.block>0?`<div class="block-badge">🛡️${f.block}</div>`:'';
   wrap.innerHTML=`
@@ -2326,6 +2382,13 @@ function renderCombat(){
   $('#cbBlock').textContent=g.hero.block;
   $('#cbGold').textContent=g.gold;
   $('#energyText').textContent=g.energy;
+  // tint the energy orb to the active ally's class color
+  (function(){ const col=g.hero?classColor(g.hero.clsKey):'#ff9900';
+    // active-ally ring follows the selected teammate's class color
+    const cb=document.getElementById('combat'); if(cb) cb.style.setProperty('--active', col);
+    // disable End Turn while an animation/enemy turn is resolving
+    const et=document.getElementById('endTurnBtn'); if(et){ et.disabled = !!g.animating || !!g.combatOver; }
+  })();
   renderRelics('#cbRelicTray');
   renderPotions();
   renderHand(); renderPiles();
@@ -2421,6 +2484,8 @@ function attachDrag(card, cardObj){
   });
 }
 const CLASS_LABELS={ops:'🧱 Operations',aws:'📈 AWS',pxt:'💚 PXT',lnd:'📚 L&D',lastmile:'🚚 Last Mile',legal:'⚖️ Legal',finance:'💰 Finance',security:'🛡️ Security'};
+const CLASS_COLORS={ops:'#ff9900',aws:'#33ccff',pxt:'#4ade80',lnd:'#a56bff',lastmile:'#2bb7e6',legal:'#ff5c5c',finance:'#ffd24d',security:'#4ade80',generic:'#8fa3b8'};
+function classColor(k){return CLASS_COLORS[k]||'#ff9900';}
 function cardHTML(c, showUpgrade=false){
   const d=CARDS[c.k];
   const up = showUpgrade || c.upgraded;
@@ -2447,6 +2512,9 @@ function renderPiles(){
   $('#drawPile').innerHTML=`🂠 Draw <b>${g.drawPile.length}</b>`;
   $('#discardPile').innerHTML=`🗑️ Discard <b>${g.discard.length}</b>`;
   $('#exhaustPile').innerHTML=`🔥 Exhaust <b>${g.exhaust.length}</b>`;
+  $('#drawPile').onclick=()=>openPileViewer('draw');
+  $('#discardPile').onclick=()=>openPileViewer('discard');
+  $('#exhaustPile').onclick=()=>openPileViewer('exhaust');
 }
 
 /* ---- SOUND (Web Audio synth, no files) ---- */
@@ -2714,11 +2782,7 @@ function hitFx(f){
   const p=el.closest('.fighter');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');
 }
 let logLines=[];
-function log(g,msg){
-  const box=$('#combatLog'); if(!box)return;
-  const d=document.createElement('div');d.textContent=msg;box.appendChild(d);
-  while(box.children.length>6)box.removeChild(box.firstChild);
-}
+function log(g,msg){ /* combat log removed — no-op */ }
 let toastTimer=null;
 function toast(msg){
   const t=$('#toast');t.textContent=msg;t.classList.add('show');
@@ -2882,6 +2946,19 @@ function updatePartyBar(){
 window.addEventListener('resize',()=>{ if($('#map').classList.contains('active')) showMap(); });
 $('#endTurnBtn').onclick=endTurn;
 $('#deckBtn').onclick=openDeck;
+// Keyboard shortcuts
+document.addEventListener('keydown',(e)=>{
+  if(e.repeat) return;
+  const combatActive = $('#combat').classList.contains('active');
+  const anyOverlay = [...document.querySelectorAll('.overlay-screen')].some(o=>o.classList.contains('active'));
+  if(e.key==='Escape' && anyOverlay){ document.querySelectorAll('.overlay-screen.active').forEach(o=>o.classList.remove('active')); return; }
+  if(anyOverlay) return;
+  if(combatActive && !g.combatOver && !g.animating){
+    if(e.key==='e' || e.key==='E' || e.key===' '){ e.preventDefault(); endTurn(); }
+  }
+  if(e.key==='d' || e.key==='D'){ if(g&&g.deck) openDeck(); }
+  if(e.key==='?' ){ openHelp(); }
+});
 (function(){['#helpBtn','#helpBtnCb'].forEach(sel=>{const b=document.querySelector(sel);if(b)b.onclick=openHelp;});})();
 // First-time players: auto-open help once
 (function(){ try{ if(!localStorage.getItem('peakseason_seen_help')){ localStorage.setItem('peakseason_seen_help','1'); setTimeout(openHelp, 400); } }catch(e){} })();
