@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1071,7 +1070,7 @@ function saveGame(){
       party:g.party.map(a=>({clsKey:a.clsKey, maxHp:a.maxHp, hp:a.hp, alive:a.alive})),
       deck:g.deck.map(c=>({k:c.k,upgraded:!!c.upgraded})),
       relics:[...g.relics],
-      mapPos:g.mapPos, act:(g.act||1), diff:(g.diff||'normal'), stats:g.stats, potions:(g.potions||[]), revivesUsed:(g.revivesUsed||0),
+      mapPos:g.mapPos, act:(g.act||1), diff:(g.diff||'normal'), loop:(g.loop||1), endless:!!g.endless, stats:g.stats, potions:(g.potions||[]), revivesUsed:(g.revivesUsed||0),
       // serialize map: type/done/edges only (positions recomputed on render)
       map:g.map.map(row=>row.map(n=>({row:n.row,idx:n.idx,type:n.type,done:!!n.done,edges:[...n.edges],id:n.id}))),
       savedAt:Date.now()
@@ -1102,7 +1101,7 @@ function loadGame(){
     gold:data.gold, baseEnergy:data.baseEnergy,
     deck:data.deck.map(c=>({id:newId(), k:c.k, upgraded:!!c.upgraded})),
     relics:[...data.relics],
-    floor:data.floor, mapPos:data.mapPos, map:null, act:(data.act||1), diff:(data.diff||'normal'), potions:(data.potions||[]), animating:false, revivesUsed:(data.revivesUsed||0),
+    floor:data.floor, mapPos:data.mapPos, map:null, act:(data.act||1), diff:(data.diff||'normal'), loop:(data.loop||1), endless:!!data.endless, potions:(data.potions||[]), animating:false, revivesUsed:(data.revivesUsed||0),
     stats:(data.stats||{dmgDealt:0,dmgTaken:0,blockGained:0,healed:0,cardsPlayed:0,enemiesSlain:0,combatsWon:0,turns:0,goldEarned:0,bestCombo:0,startedAt:Date.now()})
   };
   // rebuild map with live node objects (positions added at render time)
@@ -1135,7 +1134,7 @@ function newGame(clsKey, diff){
     deck:combinedDeck,
     relics,
     baseEnergy: 4,   // shared pool for a 2-person party
-    floor:0, mapPos:null, map:null, act:1, diff:(diff||'normal'),
+    floor:0, mapPos:null, map:null, act:1, diff:(diff||'normal'), loop:1, endless:(diff==='endless'),
     potions:[], animating:false, revivesUsed:0,
     stats:{dmgDealt:0,dmgTaken:0,blockGained:0,healed:0,cardsPlayed:0,enemiesSlain:0,combatsWon:0,turns:0,goldEarned:0,bestCombo:0,startedAt:Date.now()},
   };
@@ -1338,8 +1337,10 @@ const DIFFS = {
   easy:  {name:"Intern",     hpMul:0.8, dmgMul:0.8, gold:1.25, desc:"Gentler foes, more gold. Learn the ropes."},
   normal:{name:"Full-Time",  hpMul:1.0, dmgMul:1.0, gold:1.0,  desc:"The intended challenge."},
   hard:  {name:"Bar Raiser", hpMul:1.25,dmgMul:1.2, gold:0.9,  desc:"Tougher, hungrier enemies. For veterans."},
+  endless:{name:"♾️ Endless", hpMul:1.0, dmgMul:1.0, gold:1.0, desc:"Beat the boss to loop again — +15% tougher every clear. How far can you go?"},
 };
 function diffCfg(){ return DIFFS[(g&&g.diff)||'normal']||DIFFS.normal; }
+function loopMul(){ return 1 + 0.15*(((g&&g.loop)||1)-1); }   // +15% enemy HP & dmg per loop cleared
 function spawn(def){
   let hp = def.hp[0]===def.hp[1]?def.hp[0]:(def.hp[0]+rnd(def.hp[1]-def.hp[0]+1));
   hp = Math.max(1, Math.round(hp * diffCfg().hpMul));
@@ -1456,7 +1457,7 @@ function setIntent(e){
   const m=moves[idx];
   let dmg=0;
   if(m.t==='atk'){
-    dmg = Math.round((m.v + (e.status.Strength||0)) * diffCfg().dmgMul);
+    dmg = Math.round((m.v + (e.status.Strength||0)) * diffCfg().dmgMul * loopMul());
     if(e.status.Weak>0) dmg=Math.floor(dmg*0.75);
   }
   // TARGETING: taunt overrides everything; otherwise attack the WEAKER player first.
@@ -1795,7 +1796,7 @@ async function enemyTurn(){
       g._enemyAttacking=true;
       const hits=m.mult||1;
       for(let h=0;h<hits;h++){
-        let dmg=Math.round((m.v+(e.status.Strength||0))*diffCfg().dmgMul);
+        let dmg=Math.round((m.v+(e.status.Strength||0))*diffCfg().dmgMul*loopMul());
         if(e.status.Weak>0)dmg=Math.floor(dmg*0.75);
         if(m.aoe){
           // AOE: hit EVERY living ally (block on one ally won't save the other)
@@ -1862,6 +1863,40 @@ function heroDies(){
 /* ============================================================
    REWARDS
    ============================================================ */
+const CLEAR_FLAVORS=[
+  "But peace never lasts — <b>shipping delays</b> are cascading across the network. Brace yourself.",
+  "But the calm shatters — a surprise <b>hiring freeze</b> just doubled everyone's workload.",
+  "But alarms blare — the <b>servers are crashing</b> under record traffic. All hands on deck.",
+  "But it's not over — a <b>surprise audit</b> is descending on your org. Look busy.",
+  "But the ground shifts — <b>another reorg</b> just scrambled the whole team.",
+  "But trouble brews — <b>Prime Day</b> traffic is spiking beyond every forecast.",
+  "But danger looms — a <b>SEV-1 outage</b> is spreading and the pagers won't stop.",
+  "But no rest yet — <b>peak season volume</b> just tripled overnight.",
+  "But the pressure builds — <b>OP1 planning</b> season has arrived, and the docs are due.",
+  "But chaos returns — a <b>vendor just missed a deadline</b>, and it's rolling downhill to you."
+];
+function clearFlavor(){ return CLEAR_FLAVORS[rnd(CLEAR_FLAVORS.length)]; }
+function loopEndless(){
+  g.loop=(g.loop||1)+1;
+  // record best loop
+  try{ const best=parseInt(localStorage.getItem('peakseason_best_loop')||'1',10); if(g.loop>best) localStorage.setItem('peakseason_best_loop', String(g.loop)); }catch(e){}
+  // reward: revive + full heal + a free relic each loop
+  g.party.forEach(a=>{ a.alive=true; a.hp=a.maxHp; });
+  g.active=g.party.findIndex(a=>a.alive); g.hero=g.party[g.active];
+  const rk=rollRelic(); if(rk) addRelic(rk);
+  // reset to Level 1 of the next (harder) loop
+  g.act=1; g.floor=0; g.mapPos=null;
+  const overlay=$('#endOverlay');
+  overlay.className='overlay-screen end-screen active win';
+  const pct=Math.round((loopMul()-1)*100);
+  $('#endContent').innerHTML=`
+    <h1 style="color:var(--gold)">♾️ LOOP ${g.loop-1} CLEARED!</h1>
+    <div class="psub" style="font-size:18px;max-width:560px">You conquered the whole tower — but Peak Season never ends. ${clearFlavor()} The cycle begins again, now <b>+${pct}%</b> tougher. Party fully healed, and a bonus mechanism secured. 🎁</div>
+    <div style="margin:14px 0;color:var(--muted)">Entering <b>Loop ${g.loop}</b> · ${g.clsDef.name} · ${g.deck.length} cards · 🪙 ${g.gold}</div>
+    <div class="center-actions"><button class="btn" id="loopBtn">Begin Loop ${g.loop} →</button></div>`;
+  $('#loopBtn').onclick=()=>{ overlay.classList.remove('active'); buildMap(); showMap(); };
+  return;
+}
 function advanceToAct2(){
   g.act=2; g.floor=0; g.mapPos=null;
   // reward for clearing Level 1: revive downed allies & heal whole party 40%
@@ -1871,7 +1906,7 @@ function advanceToAct2(){
   overlay.className='overlay-screen end-screen active win';
   $('#endContent').innerHTML=`
     <h1 style="color:var(--gold)">📈 LEVEL 1 CLEARED!</h1>
-    <div class="psub" style="font-size:18px;max-width:560px">You survived Peak Season and toppled <b>Peccy Prime</b>. But a bigger disruption looms... <b>The OP2 Leviathan</b> awaits in Level 2. The enemies grow tougher — but so do you.</div>
+    <div class="psub" style="font-size:18px;max-width:560px">You toppled <b>Peccy Prime</b>! ${clearFlavor()} <b>The OP2 Leviathan</b> awaits in Level 2.</div>
     <div style="margin:14px 0;color:var(--muted)">Party healed 40% · ${g.deck.length} cards · 🪙 ${g.gold}</div>
     <div class="center-actions"><button class="btn" id="act2Btn">Enter Level 2 →</button></div>`;
   $('#act2Btn').onclick=()=>{ overlay.classList.remove('active'); buildMap(); showMap(); };
@@ -1887,8 +1922,11 @@ function winCombat(){
   if(g.stats) g.stats.goldEarned+=gold;
   if(node.type==='boss'){
     g.gold+=gold; renderTop();
-    if(g.act>=2){ return victory(); }        // Act 2 boss = final victory
-    return advanceToAct2();                   // Act 1 boss = continue the run
+    if(g.act>=2){
+      if(g.endless){ return loopEndless(); }  // Endless: clear boss -> harder loop
+      return victory();                         // normal: final victory
+    }
+    return advanceToAct2();                     // Level 1 boss -> Level 2
   }
   g.gold+=gold; renderTop(); SFX.gold();
 
@@ -2263,7 +2301,7 @@ function renderTop(){
   $('#hpText').textContent=g.party.map(a=>`${a.hp}/${a.maxHp}`).join('  ');
   $('#hpFill').style.width=(totHp/totMax*100)+'%';
   $('#goldText').textContent=g.gold;
-  $('#floorText').textContent=`Level ${g.act||1} · Floor ${g.floor}/${ROWS} · ${diffCfg().name}`;
+  $('#floorText').textContent=(g.endless?`♾️ Loop ${g.loop} · `:'')+`Level ${g.act||1} · Floor ${g.floor}/${ROWS}`+(g.endless?'':` · ${diffCfg().name}`);
   renderRelics('#relicTray');
   renderPotions();
 }
@@ -2813,12 +2851,15 @@ function gameOver(win){
     ['⏱️','Run Time',`${mins} min`],
   ];
   const grid=statItems.map(([ic,lab,val])=>`<div class="statcell"><div class="si">${ic}</div><div class="sv">${val}</div><div class="sl">${lab}</div></div>`).join('');
+  let loopLine='';
+  if(g.endless){ let best=g.loop; try{ best=localStorage.getItem('peakseason_best_loop')||g.loop; }catch(e){}
+    loopLine=`<div style="margin:2px 0 6px;color:var(--gold);font-size:18px;font-weight:800">♾️ Reached Loop ${g.loop} · Best: Loop ${best}</div>`; }
   $('#endContent').innerHTML=`
     <h1>${win?'🏆 PROMOTED!':'💀 DEPRIORITIZED'}</h1>
     <div class="psub" style="font-size:17px;max-width:520px">${win?
       'You conquered both levels and defeated The OP2 Leviathan itself. Leadership is in awe. A corner office, a promotion, and an even bigger backlog await. You ARE Peak Season.':
       'The corporate tower claimed another soul. Your deck has been archived in a wiki no one will ever read.'}</div>
-    <div style="margin:8px 0 4px;color:var(--muted)">${g.clsDef.name} · ${g.deck.length} cards</div>
+    <div style="margin:8px 0 4px;color:var(--muted)">${g.clsDef.name} · ${g.deck.length} cards</div>${loopLine}
     <div class="statgrid">${grid}</div>
     <div class="center-actions"><button class="btn" id="againBtn">Play Again ↻</button></div>`;
   $('#againBtn').onclick=()=>{ ov.classList.remove('active'); buildTitle(); switchScreen('title'); };
@@ -2829,8 +2870,8 @@ function victory(){ gameOver(true); }
    TITLE / BOOT
    ============================================================ */
 function openHelp(){
-  const kwIcons={Block:'🛡️',Vulnerable:'💥',Weak:'🥀',Strength:'💪',Dexterity:'🎯',Frail:'🍂',Regen:'💚',Ramp:'📈',Metrics:'📊',Exhaust:'🔥',Lifesteal:'🩸',Overwork:'🩹',Escalate:'📣'};
-  const kwOrder=['Block','Strength','Dexterity','Regen','Vulnerable','Weak','Frail','Lifesteal','Overwork','Exhaust','Ramp'];
+  const kwIcons={Block:'🛡️',Vulnerable:'💥',Weak:'🥀',Strength:'💪',Dexterity:'🎯',Frail:'🍂',Regen:'💚',Ramp:'📈',Metrics:'📊',Exhaust:'🔥',Lifesteal:'🩸',Overwork:'🩹',Escalate:'📣',Taunt:'📣',Injunction:'⚖️',Exploit:'🐛',Thorns:'🌵',Pierce:'🗡️'};
+  const kwOrder=['Block','Strength','Dexterity','Regen','Vulnerable','Weak','Frail','Lifesteal','Overwork','Exploit','Thorns','Pierce','Taunt','Injunction','Exhaust'];
   const kwHtml=kwOrder.filter(k=>KW[k]).map(k=>`<div class="helprow"><span class="hk">${kwIcons[k]||'•'} ${k}</span><span class="hv">${KW[k]}</span></div>`).join('');
   const panel=document.getElementById('helpPanel');
   panel.innerHTML=`
@@ -2838,13 +2879,15 @@ function openHelp(){
     <div class="helpgrid">
       <div class="helpcol">
         <h3>🎯 Goal</h3>
-        <p>Climb the corporate tower floor by floor and defeat the boss, <b>The QBR</b>. Each fight, play cards from your hand to survive and win.</p>
+        <p>Assemble a <b>party of 2</b>, climb the corporate tower across 2 levels, and defeat the bosses — <b>Peccy Prime</b> then <b>The OP2 Leviathan</b>.</p>
         <h3>⚡ Energy</h3>
-        <p>You get <b>3 energy</b> each turn. Cards cost energy to play. When your energy hits 0, the turn auto-ends (or hit <b>End Turn</b> early to save energy for effects).</p>
+        <p>Your party shares <b>4 energy</b> per turn. Cards cost energy to play. When energy hits 0 the turn auto-ends (or hit <b>End Turn</b> / press <b>E</b> early).</p>
         <h3>🃏 Card Types</h3>
-        <div class="helprow"><span class="hk" style="color:#ff8a5c">⚔️ Attack</span><span class="hv">Deals damage. Click a card then click an enemy, or drag it onto the target.</span></div>
-        <div class="helprow"><span class="hk" style="color:#4ec3ff">🛡️ Skill</span><span class="hv">Grants Block or utility (heal, draw, buffs). Block absorbs damage but resets each turn.</span></div>
+        <div class="helprow"><span class="hk" style="color:#ff8a5c">⚔️ Attack</span><span class="hv">Deals damage. Click it then an enemy, or drag it onto the target.</span></div>
+        <div class="helprow"><span class="hk" style="color:#4ec3ff">🛡️ Skill</span><span class="hv">Block or utility (heal, draw, buffs). Block resets each turn.</span></div>
         <div class="helprow"><span class="hk" style="color:#c79bff">⚡ Power</span><span class="hv">A permanent buff for the rest of the fight.</span></div>
+        <h3>👥 Your Party</h3>
+        <p>Both heroes have their own HP, Block & status. <b>Click a teammate</b> to make them active (who your Block/heal/attack cards apply to). Enemies attack the <b>weaker</b> ally — the red <b>incoming</b> banner shows who's targeted. Use <b>Taunt</b> to redirect. A downed ally can be revived (reward screen / rest / shop). Lose only when <b>both</b> fall.</p>
       </div>
       <div class="helpcol">
         <h3>📖 Keywords</h3>
@@ -2860,8 +2903,14 @@ function openHelp(){
         <div class="helprow"><span class="hk">👑 Boss</span><span class="hv">The boss — ends the level.</span></div>
         <h3>🧪 Potions & 🎖️ Relics</h3>
         <p><b>Potions</b> (top bar) are one-use — click to use anytime, save them for tough spots. <b>Relics</b> are permanent passive bonuses (hover to read them).</p>
+        <h3>🦸 Classes</h3>
+        <p>8 orgs: 🧱 Ops (tank), 📈 AWS (scaling), 💚 PXT (heal), 📚 L&D (draw), 🚚 Last Mile (tokens), ⚖️ Legal (control), 💰 Finance (gold), 🛡️ Security (DoT). Each card's color/border shows its class.</p>
+        <h3>⚙️ Difficulty & ♾️ Endless</h3>
+        <p>Pick Intern / Full-Time / Bar Raiser, or <b>♾️ Endless</b> — beat the final boss to loop back, +15% tougher each clear, keeping your deck. Chase your best loop!</p>
+        <h3>⌨️ Shortcuts</h3>
+        <p><b>E</b>/<b>Space</b> = End Turn · <b>D</b> = Deck · <b>?</b> = Help · <b>Esc</b> = close. Click any pile (Draw/Discard/Exhaust) to view it.</p>
         <h3>💡 Tips</h3>
-        <p>Block before big hits (watch enemy <b>intents</b> above their heads). Thin your deck in shops. Heal with intent — sustain has tradeoffs!</p>
+        <p>Block the targeted ally before big hits (hover enemy <b>intents</b>). Thin your deck in shops. Heal with intent — sustain has tradeoffs!</p>
       </div>
     </div>`;
   document.getElementById('helpClose').onclick=()=>document.getElementById('helpOverlay').classList.remove('active');
